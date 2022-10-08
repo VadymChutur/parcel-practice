@@ -102,33 +102,166 @@
 //   console.log(date2 - date);
 // }, 3000);
 
-const timer = {
-  start() {
-    const startTime = Date.now();
+// const timer = {
+//   start() {
+//     const startTime = Date.now();
 
-    setInterval(() => {
-      const curentTime = Date.now();
-      const deltaTime = curentTime - startTime;
-      const { hours, mins, secs } = getTimeComponents(deltaTime);
+//     setInterval(() => {
+//       const curentTime = Date.now();
+//       const deltaTime = curentTime - startTime;
+//       const { hours, mins, secs } = getTimeComponents(deltaTime);
 
-      //   console.log(curentTime);
-      console.log(`${hours}:${mins}:${secs}`);
-    }, 1000);
-  },
-};
+//       //   console.log(curentTime);
+//       console.log(`${hours}:${mins}:${secs}`);
+//     }, 1000);
+//   },
+// };
 
-// timer.start();
+// // timer.start();
 
-function pad(value) {
-  return String(value).padStart(2, '0');
+// function pad(value) {
+//   return String(value).padStart(2, '0');
+// }
+
+// function getTimeComponents(time) {
+//   const hours = pad(
+//     Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+//   );
+//   const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+//   const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+
+//   return { hours, mins, secs };
+// }
+
+// const promise = new Promise((resolve, reject) => {
+//   const canFulfill = Math.random() > 0.5;
+//   setTimeout(() => {
+//     if (canFulfill) {
+//       resolve('This fine');
+//     }
+
+//     reject('This fail');
+//   }, 1000);
+// });
+
+// // promise.then(onFulfilled, onRejected);
+
+// function onFulfilled(result) {
+//   console.log(result);
+// }
+
+// function onRejected(error) {
+//   console.log(error);
+// }
+
+// // console.log(promise);
+
+// promise
+//   .then(onFulfilled, onRejected)
+//   .then(result => {
+//     console.log(result);
+
+//     return 5;
+//   })
+//   .then(x => {
+//     console.log(x);
+
+//     return x + x;
+//   })
+//   .then(y => {
+//     console.log(y);
+//   })
+//   .catch(error => console.log(error))
+//   .finally(() => {
+//     console.log('i finished');
+//   });
+
+// const makeOrder = dish => {
+//   const DELAY = 1000;
+
+//   return new Promise((resolve, reject) => {
+//     const passed = Math.random() > 0.5;
+
+//     setTimeout(() => {
+//       if (passed) {
+//         resolve('this is your dish');
+//       } else {
+//         reject('sorry not a product');
+//       }
+//     }, DELAY);
+//   });
+// };
+
+// makeOrder('pirojok').then(onMakeOrderSuccess).catch(onMakeOrderError);
+
+// function onMakeOrderSuccess(result) {
+//   console.log('onMakeOrderSuccess');
+//   console.log(result);
+// }
+
+// function onMakeOrderError(error) {
+//   console.log('onMakeOrderError');
+//   console.log(error);
+// }
+
+// const makeOrder = dish => {
+//   return Promise.resolve('this is your dish');
+// };
+
+// makeOrder('pirojok').then(onMakeOrderSuccess);
+
+// function onMakeOrderSuccess(result) {
+//   console.log('onMakeOrderSuccess');
+//   console.log(result);
+// }
+
+// function onMakeOrderError(error) {
+//   console.log('onMakeOrderError');
+//   console.log(error);
+// }
+
+// const makePromise = () => {
+//   return new Promise((reslove, reject) => {
+//     reslove('this work');
+//   });
+// };
+
+// makePromise().then(result => console.log(result));
+const horses = [
+  'Secretar',
+  'Eclipse',
+  'West Australian',
+  'Flying Fox',
+  'Seabiscuit',
+];
+
+console.log('%c Rasing Start rates not give!', 'color: red; font-size: 14px;');
+
+const promises = horses.map(race);
+
+Promise.race(promises)
+  .then(({ horse, time }) => {
+    console.log(
+      `%c Winner ${horse}, finished time ${time}`,
+      'color: green; font-size:14px;'
+    );
+  })
+  .catch(e => console.log(e));
+
+Promise.all(promises).then(() => {
+  console.log('%c Race finished, rates give!', 'color: blue; font-size: 14px;');
+});
+
+function getRandomTime(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function getTimeComponents(time) {
-  const hours = pad(
-    Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  );
-  const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-  const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+function race(horse) {
+  return new Promise((reslove, reject) => {
+    const time = getRandomTime(2000, 3500);
 
-  return { hours, mins, secs };
+    setTimeout(() => {
+      reslove({ horse, time });
+    }, time);
+  });
 }
