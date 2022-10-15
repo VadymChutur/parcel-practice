@@ -227,41 +227,73 @@
 // };
 
 // makePromise().then(result => console.log(result));
-const horses = [
-  'Secretar',
-  'Eclipse',
-  'West Australian',
-  'Flying Fox',
-  'Seabiscuit',
-];
+// const horses = [
+//   'Secretar',
+//   'Eclipse',
+//   'West Australian',
+//   'Flying Fox',
+//   'Seabiscuit',
+// ];
 
-console.log('%c Rasing Start rates not give!', 'color: red; font-size: 14px;');
+// console.log('%c Rasing Start rates not give!', 'color: red; font-size: 14px;');
 
-const promises = horses.map(race);
+// const promises = horses.map(race);
 
-Promise.race(promises)
-  .then(({ horse, time }) => {
-    console.log(
-      `%c Winner ${horse}, finished time ${time}`,
-      'color: green; font-size:14px;'
-    );
-  })
-  .catch(e => console.log(e));
+// Promise.race(promises)
+//   .then(({ horse, time }) => {
+//     console.log(
+//       `%c Winner ${horse}, finished time ${time}`,
+//       'color: green; font-size:14px;'
+//     );
+//   })
+//   .catch(e => console.log(e));
 
-Promise.all(promises).then(() => {
-  console.log('%c Race finished, rates give!', 'color: blue; font-size: 14px;');
-});
+// Promise.all(promises).then(() => {
+//   console.log('%c Race finished, rates give!', 'color: blue; font-size: 14px;');
+// });
 
-function getRandomTime(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+// function getRandomTime(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
+
+// function race(horse) {
+//   return new Promise((reslove, reject) => {
+//     const time = getRandomTime(2000, 3500);
+
+//     setTimeout(() => {
+//       reslove({ horse, time });
+//     }, time);
+//   });
+// }
+import pokemonCardTpl from '../templates/pokemon-card.hbs';
+import API from './api-service.js';
+import getRefs from './get-refs';
+
+const refs = getRefs();
+
+refs.searchForm.addEventListener('submit', onSearch);
+
+function onSearch(e) {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const searchQuery = form.elements.query.value;
+
+  API.fetchPokemonResponse(searchQuery)
+    .then(renderPokemonCard)
+    .catch(onError)
+    .finally(() => form.reset());
 }
 
-function race(horse) {
-  return new Promise((reslove, reject) => {
-    const time = getRandomTime(2000, 3500);
-
-    setTimeout(() => {
-      reslove({ horse, time });
-    }, time);
-  });
+function renderPokemonCard(pokemon) {
+  const markup = pokemonCardTpl(pokemon);
+  refs.cardContiner.innerHTML = markup;
 }
+
+function onError(error) {
+  alert('Vse propalo');
+}
+
+////////////////////////////////////////////////////////////////////
+
+// pokemon?limit=100000&offset=0.
