@@ -265,34 +265,34 @@
 //     }, time);
 //   });
 // }
-import pokemonCardTpl from '../templates/pokemon-card.hbs';
-import API from './api-service.js';
-import getRefs from './get-refs';
+// import pokemonCardTpl from '../templates/pokemon-card.hbs';
+// import API from './api-service.js';
+// import getRefs from './get-refs';
 
-const refs = getRefs();
+// const refs = getRefs();
 
-refs.searchForm.addEventListener('submit', onSearch);
+// refs.searchForm.addEventListener('submit', onSearch);
 
-function onSearch(e) {
-  e.preventDefault();
+// function onSearch(e) {
+//   e.preventDefault();
 
-  const form = e.currentTarget;
-  const searchQuery = form.elements.query.value;
+//   const form = e.currentTarget;
+//   const searchQuery = form.elements.query.value;
 
-  API.fetchPokemonResponse(searchQuery)
-    .then(renderPokemonCard)
-    .catch(onError)
-    .finally(() => form.reset());
-}
+//   API.fetchPokemonResponse(searchQuery)
+//     .then(renderPokemonCard)
+//     .catch(onError)
+//     .finally(() => form.reset());
+// }
 
-function renderPokemonCard(pokemon) {
-  const markup = pokemonCardTpl(pokemon);
-  refs.cardContiner.innerHTML = markup;
-}
+// function renderPokemonCard(pokemon) {
+//   const markup = pokemonCardTpl(pokemon);
+//   refs.cardContiner.innerHTML = markup;
+// }
 
-function onError(error) {
-  alert('Vse propalo');
-}
+// function onError(error) {
+//   alert('Vse propalo');
+// }
 
 ////////////////////////////////////////////////////////////////////
 
